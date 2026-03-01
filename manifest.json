@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "InfoByte AI",
+    "version": "1.0",
+    "description": "Summarises the current webpage using AI.",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}

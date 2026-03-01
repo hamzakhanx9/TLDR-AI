@@ -1,5 +1,4 @@
-# TLDR AI
-## Web Page Summariser
+# Web Page Summariser
 
 A Chrome extension that summarises web pages using AI models. Instead of merely extracting paragraph text, the extension captures article and sends it to a backend AI service (e.g. GPT, LLaMA) which returns a concise summary.
 

@@ -5,7 +5,8 @@
     "description": "Summarises the current webpage using AI.",
     "permissions": [
         "activeTab",
-        "scripting"
+        "scripting",
+        "storage"
     ],
     "action": {
         "default_popup": "popup.html"

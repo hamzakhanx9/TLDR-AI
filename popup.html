@@ -82,6 +82,21 @@
     <div id="output"></div>
     <button id="copyBtn" style="display:none; margin-top:10px;">Copy to Clipboard</button>
 
+    <!-- token entry dialog -->
+    <div id="tokenDialog" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#fff; padding:20px; border-radius:8px; width:90%; max-width:300px; color:#000;">
+            <p>Please enter your API token:</p>
+            <input id="tokenInput" type="text" style="width:100%; padding:6px; margin-bottom:10px;" placeholder="Bearer token here" />
+            <div style="display:flex; justify-content:space-between;">
+                <button id="saveTokenBtn" style="flex:1; margin-right:4px;">Save</button>
+                <button id="cancelTokenBtn" style="flex:1; margin-left:4px;">Cancel</button>
+            </div>
+            <p style="font-size:12px; margin-top:10px;">
+                Don't have a key? <a id="createTokenLink" href="https://github.com/hamzakhanx9/TLDR-AI/blob/main/API_KEY.txt" target="_blank">Create one</a> and come back.
+            </p>
+        </div>
+    </div>
+
     <script src="popup.js"></script>
 </body>
 

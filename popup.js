@@ -1,8 +1,29 @@
 const analyzeBtn = document.getElementById("analyzeBtn");
 const outputDiv = document.getElementById("output");
+const copyBtn = document.getElementById("copyBtn");
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+
+const savedDark = localStorage.getItem("darkMode") === "true";
+if (savedDark) {
+    document.body.classList.add("dark-mode");
+    if (themeIcon) themeIcon.textContent = "☀️";
+}
+
+if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+        const nowDark = document.body.classList.toggle("dark-mode");
+        if (themeIcon) themeIcon.textContent = nowDark ? "☀️" : "🌙";
+        localStorage.setItem("darkMode", nowDark);
+    });
+}
 
 analyzeBtn.addEventListener("click", async () => {
-    outputDiv.textContent = "Summarising article...";
+    const spinner = document.getElementById("spinner");
+    const showSpinner = () => { if (spinner) spinner.style.display = "block"; };
+    const hideSpinner = () => { if (spinner) spinner.style.display = "none"; };
+
+    showSpinner();
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -14,10 +35,9 @@ analyzeBtn.addEventListener("click", async () => {
     chrome.tabs.sendMessage(tab.id, { action: "getArticle" }, async (response) => {
         if (!response || !response.article) {
             outputDiv.textContent = "Could not summarise article.";
+            hideSpinner();
             return;
         }
-
-        outputDiv.textContent = "Analyzing with AI...";
 
         const articleText = response.article.slice(0, 12000);
 
@@ -32,7 +52,7 @@ ${articleText}
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + "API_KEY_HERE"
+                    "Authorization": "Bearer " + "AI_API_KEY" // Replace with your actual API key
                 },
                 body: JSON.stringify({
                     messages: [
@@ -62,10 +82,26 @@ ${articleText}
             }
 
             outputDiv.textContent = resultText;
-
+            hideSpinner();
+            if (copyBtn) {
+                copyBtn.style.display = resultText ? "block" : "none";
+            }
         } catch (error) {
             outputDiv.textContent = "Error calling AI: " + error.message;
             console.error(error);
+            hideSpinner();
+            if (copyBtn) copyBtn.style.display = "none";
         }
     });
 });
+
+if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+        const text = outputDiv.textContent;
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+            copyBtn.textContent = "Copied!";
+            setTimeout(() => { copyBtn.textContent = "Copy to clipboard"; }, 1500);
+        }).catch(err => console.error("Clipboard write failed", err));
+    });
+}

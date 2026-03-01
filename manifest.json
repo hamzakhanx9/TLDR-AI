@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "InfoByte AI",
+    "name": "TLDR AI",
     "version": "1.0",
     "description": "Summarises the current webpage using AI.",
     "permissions": [
